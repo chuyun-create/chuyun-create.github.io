@@ -1,0 +1,549 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>张欣杨的个人主页 | ENFP的旷野与星空</title>
+<style>
+  /* ================= 基础重置与全局变量 ================= */
+  :root {
+    --primary: #00d2ff;
+    --secondary: #3a7bd5;
+    --accent: #ff6b6b;
+    --warm: #feca57;
+    --text-light: #f8f9fa;
+    --glass-bg: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    color: var(--text-light);
+    overflow-x: hidden;
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #141e30);
+    background-size: 400% 400%;
+    animation: gradientFlow 20s ease infinite;
+  }
+
+  @keyframes gradientFlow {
+    0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
+  }
+
+  /* ================= 动态意境背景 ================= */
+  .bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+  .particle {
+    position: absolute; background: rgba(255, 255, 255, 0.5); border-radius: 50%;
+    animation: floatUp linear infinite; box-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 1; } 90% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  /* ================= 导航栏 ================= */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; padding: 15px 5%;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(15, 32, 39, 0.5); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--glass-border); z-index: 1000; transition: all 0.3s ease;
+  }
+  .logo {
+    font-size: 1.4rem; font-weight: bold;
+    background: linear-gradient(90deg, var(--primary), var(--warm));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .nav-links { display: flex; gap: 25px; list-style: none; }
+  .nav-links a {
+    color: var(--text-light); text-decoration: none; font-size: 0.95rem;
+    position: relative; transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+    background: var(--primary); transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--primary); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ================= 通用板块 ================= */
+  section { min-height: 100vh; padding: 100px 8% 60px; display: flex; flex-direction: column; justify-content: center; }
+  .section-title {
+    font-size: 2.2rem; margin-bottom: 40px; text-align: center; position: relative;
+    background: linear-gradient(90deg, #fff, #b0c4de); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .section-title::after {
+    content: ''; display: block; width: 50px; height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    margin: 12px auto 0; border-radius: 2px;
+  }
+
+  .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ================= 首屏 Hero ================= */
+  #home { text-align: center; justify-content: center; align-items: center; }
+  .hero-content { opacity: 0; animation: fadeInUp 1.2s ease forwards; }
+  .hero-content h1 { font-size: 3.8rem; margin-bottom: 15px; text-shadow: 0 0 30px rgba(0, 210, 255, 0.2); }
+  .hero-content h1 span {
+    background: linear-gradient(90deg, #00d2ff, #ff6b6b, #feca57);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-tags { display: flex; gap: 15px; justify-content: center; margin: 20px 0 30px; flex-wrap: wrap; }
+  .tag {
+    padding: 6px 18px; background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 30px; font-size: 0.95rem; backdrop-filter: blur(5px);
+  }
+  .tag.enfp { border-color: var(--warm); color: var(--warm); font-weight: bold; }
+  .scroll-down { margin-top: 40px; font-size: 2rem; animation: bounce 2s infinite; cursor: pointer; color: #b0c4de;}
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ================= ENFP 人格介绍 ================= */
+  .enfp-card {
+    max-width: 900px; margin: 0 auto; background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 24px; padding: 40px; backdrop-filter: blur(12px); display: flex; gap: 40px; align-items: center;
+  }
+  .enfp-badge {
+    min-width: 160px; height: 160px; background: linear-gradient(135deg, var(--warm), var(--accent));
+    border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3); flex-shrink: 0;
+  }
+  .enfp-badge h2 { font-size: 2.5rem; color: #fff; line-height: 1; }
+  .enfp-badge p { font-size: 0.9rem; color: rgba(255,255,255,0.9); margin-top: 5px; }
+  .enfp-text h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--warm); }
+  .enfp-text p { font-size: 1rem; line-height: 1.8; color: #d1d5db; margin-bottom: 10px; }
+  .enfp-traits { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+  .trait { padding: 4px 12px; background: rgba(254, 202, 87, 0.15); border-radius: 12px; font-size: 0.85rem; color: var(--warm); }
+
+  /* ================= 热爱与足迹 ================= */
+  .passions-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px; max-width: 1100px; margin: 0 auto; width: 100%;
+  }
+  .passion-card {
+    background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 18px;
+    padding: 25px 15px; text-align: center; backdrop-filter: blur(8px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .passion-card:hover {
+    transform: translateY(-8px); background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); border-color: var(--primary);
+  }
+  .passion-icon { font-size: 2.8rem; margin-bottom: 12px; display: block; transition: transform 0.3s; }
+  .passion-card:hover .passion-icon { transform: scale(1.15) rotate(5deg); }
+  .passion-card h3 { font-size: 1.15rem; margin-bottom: 6px; }
+  .passion-card p { font-size: 0.85rem; color: #9ca3af; line-height: 1.5;}
+
+  /* ================= 追光者 (偶像展示) ================= */
+  .idols-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1000px; margin: 0 auto; width: 100%;
+  }
+  .idol-card {
+    position: relative; border-radius: 24px; overflow: hidden; aspect-ratio: 3/4;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4); cursor: pointer;
+    border: 1px solid var(--glass-border);
+  }
+  .idol-card img {
+    width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    filter: brightness(0.85);
+  }
+  .idol-card:hover img { transform: scale(1.08); filter: brightness(1); }
+  .idol-info {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 40px 25px 25px;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.5) 60%, transparent);
+  }
+  .idol-tag {
+    display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;
+    margin-bottom: 10px; letter-spacing: 1px;
+  }
+  .idol-card.ice .idol-tag { background: rgba(0, 210, 255, 0.2); color: var(--primary); border: 1px solid var(--primary); }
+  .idol-card.fire .idol-tag { background: rgba(255, 107, 107, 0.2); color: var(--accent); border: 1px solid var(--accent); }
+  .idol-info h3 { font-size: 1.6rem; margin-bottom: 8px; font-weight: bold; }
+  .idol-info p { font-size: 0.9rem; color: #d1d5db; line-height: 1.6; font-style: italic; }
+
+  /* ================= 旅游风景画廊 ================= */
+  .gallery-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px; max-width: 1200px; margin: 0 auto; width: 100%;
+  }
+  .gallery-item {
+    position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/3;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3); cursor: pointer;
+  }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  .gallery-item:hover img { transform: scale(1.1); }
+  .gallery-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    transform: translateY(100%); transition: transform 0.4s ease;
+  }
+  .gallery-item:hover .gallery-overlay { transform: translateY(0); }
+  .gallery-overlay h4 { font-size: 1.1rem; margin-bottom: 4px; }
+  .gallery-overlay p { font-size: 0.85rem; color: #d1d5db; }
+
+  /* ================= 艺术语录 ================= */
+  .quotes-container {
+    max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px; width: 100%;
+  }
+  .quote-card {
+    background: var(--glass-bg); border-left: 4px solid var(--primary); border-radius: 0 16px 16px 0;
+    padding: 30px 35px; position: relative; backdrop-filter: blur(8px); transition: all 0.3s ease;
+  }
+  .quote-card:nth-child(even) { border-left-color: var(--accent); }
+  .quote-card:nth-child(3n) { border-left-color: var(--warm); }
+  .quote-card:hover { transform: translateX(10px); background: rgba(255,255,255,0.08); }
+  .quote-mark {
+    position: absolute; top: 10px; left: 15px; font-size: 4rem; color: rgba(255,255,255,0.05);
+    font-family: Georgia, serif; line-height: 1;
+  }
+  .quote-text { font-size: 1.15rem; line-height: 1.8; color: #e5e7eb; font-style: italic; position: relative; z-index: 1; }
+  .quote-author { text-align: right; margin-top: 15px; font-size: 0.9rem; color: #9ca3af; }
+
+  /* ================= 联系方式 ================= */
+  .contact-wrapper {
+    max-width: 600px; margin: 0 auto; text-align: center; background: var(--glass-bg);
+    padding: 45px 35px; border-radius: 24px; border: 1px solid var(--glass-border); backdrop-filter: blur(12px);
+  }
+  .contact-text { font-size: 1.05rem; color: #b0c4de; margin-bottom: 30px; line-height: 1.7; }
+  .contact-btn {
+    display: inline-block; padding: 12px 35px; border-radius: 30px; font-size: 1rem; font-weight: bold;
+    text-decoration: none; color: white; background: linear-gradient(135deg, var(--primary), var(--secondary));
+    transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
+  }
+  .contact-btn:hover {
+    transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 210, 255, 0.5);
+    background: linear-gradient(135deg, var(--accent), var(--warm));
+  }
+
+  /* ================= 悬浮音乐播放器 (纯视觉) ================= */
+  .music-player {
+    position: fixed; bottom: 30px; right: 30px; z-index: 1001;
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(15, 32, 39, 0.85); backdrop-filter: blur(15px);
+    padding: 10px 20px 10px 10px; border-radius: 50px;
+    border: 1px solid var(--glass-border); cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4); transition: all 0.3s ease;
+  }
+  .music-player:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0, 210, 255, 0.25); border-color: var(--primary); }
+  .vinyl {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: conic-gradient(from 0deg, #111, #333, #111, #444, #111);
+    display: flex; justify-content: center; align-items: center;
+    animation: spin 4s linear infinite paused;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+  .vinyl.playing { animation-play-state: running; }
+  .vinyl-inner {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border: 2px solid #000;
+  }
+  .music-info { display: flex; flex-direction: column; line-height: 1.3; user-select: none;}
+  .song-title { font-size: 0.85rem; font-weight: bold; color: #fff; }
+  .song-status { font-size: 0.7rem; color: var(--primary); }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+
+  /* ================= 页脚 ================= */
+  footer { text-align: center; padding: 30px; color: #6b7280; font-size: 0.85rem; border-top: 1px solid var(--glass-border); }
+
+  /* ================= 响应式 ================= */
+  @media (max-width: 768px) {
+    nav { padding: 12px 20px; }
+    .nav-links { gap: 15px; }
+    .nav-links a { font-size: 0.85rem; }
+    .hero-content h1 { font-size: 2.5rem; }
+    section { padding: 80px 5% 40px; }
+    .section-title { font-size: 1.8rem; }
+    
+    .enfp-card { flex-direction: column; text-align: center; padding: 30px 20px; }
+    .enfp-badge { min-width: 120px; height: 120px; }
+    .enfp-badge h2 { font-size: 2rem; }
+    .enfp-traits { justify-content: center; }
+    
+    .passions-grid { grid-template-columns: repeat(2, 1fr); }
+    .idols-grid { grid-template-columns: 1fr; max-width: 400px; }
+    .gallery-grid { grid-template-columns: 1fr; }
+
+    .music-player { bottom: 20px; right: 20px; padding: 8px 15px 8px 8px; gap: 8px;}
+    .vinyl { width: 34px; height: 34px; }
+    .vinyl-inner { width: 10px; height: 10px; }
+    .song-title { font-size: 0.75rem; }
+  }
+  @media (max-width: 480px) {
+    .logo { font-size: 1.1rem; }
+    .nav-links { gap: 10px; }
+    .hero-content h1 { font-size: 2rem; }
+    .passions-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-particles" id="particles"></div>
+
+<nav>
+  <div class="logo">Xinyang's Diary</div>
+  <ul class="nav-links">
+    <li><a href="#home">首页</a></li>
+    <li><a href="#personality">ENFP</a></li>
+    <li><a href="#passions">热爱</a></li>
+    <li><a href="#idols">追光</a></li>
+    <li><a href="#gallery">足迹</a></li>
+    <li><a href="#quotes">语录</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- 首屏 -->
+<section id="home">
+  <div class="hero-content">
+    <h1>你好，我是 <span>张欣杨</span></h1>
+    <p style="font-size: 1.2rem; color: #b0c4de; margin-bottom: 10px;">在机械与海洋中寻找浪漫，在旷野与峡谷中释放热爱</p>
+    <div class="hero-tags">
+      <span class="tag enfp">✨ ENFP 竞选者</span>
+      <span class="tag">⚓ 轮机工程</span>
+      <span class="tag">🎵 沉醉于灵魂转音</span>
+      <span class="tag">🌍 旅行探索者</span>
+    </div>
+    <div class="scroll-down" onclick="document.getElementById('personality').scrollIntoView()">⌄</div>
+  </div>
+</section>
+
+<!-- ENFP 人格介绍 -->
+<section id="personality">
+  <h2 class="section-title fade-in">我的灵魂底色：ENFP</h2>
+  <div class="enfp-card fade-in">
+    <div class="enfp-badge">
+      <h2>ENFP</h2>
+      <p>竞选者</p>
+    </div>
+    <div class="enfp-text">
+      <h3>“人生不是轨道，而是一片旷野。”</h3>
+      <p>作为一名典型的 ENFP（竞选者），我的脑子里永远装着一百个奇思妙想。我热情、自由、充满好奇心，喜欢探索未知的事物，也乐于感染身边的每一个人。</p>
+      <p>虽然我的专业是严谨硬核的“轮机工程”，但这并不妨碍我拥有一颗感性且艺术的心。理性的逻辑让我脚踏实地，而 ENFP 的直觉让我仰望星空。我享受像莎莎一样在冰面腾空的自由，也沉醉在峡谷极限输出时的热血沸腾。</p>
+      <div class="enfp-traits">
+        <span class="trait">💡 充满创意</span>
+        <span class="trait">🔥 热情洋溢</span>
+        <span class="trait">🦋 追求自由</span>
+        <span class="trait">🤝 共情力强</span>
+        <span class="trait">🌟 理想主义</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 热爱 -->
+<section id="passions">
+  <h2 class="section-title fade-in">我的多面热爱</h2>
+  <div class="passions-grid">
+    <div class="passion-card fade-in">
+      <span class="passion-icon">🎤</span>
+      <h3>唱歌</h3>
+      <p>沉迷于细腻的灵魂转音，在R&B的律动中寻找情绪的回声</p>
+    </div>
+    <div class="passion-card fade-in">
+      <span class="passion-icon">💃</span>
+      <h3>跳舞</h3>
+      <p>用肢体表达自我，享受节奏带来的绝对自由</p>
+    </div>
+    <div class="passion-card fade-in">
+      <span class="passion-icon">⛸️</span>
+      <h3>花样滑冰</h3>
+      <p>像特鲁索娃一样挑战极限，享受冰面上的每一次跳跃与旋转</p>
+    </div>
+    <div class="passion-card fade-in">
+      <span class="passion-icon">🏓</span>
+      <h3>乒乓球</h3>
+      <p>小小的球桌，反应与策略的极致碰撞</p>
+    </div>
+    <div class="passion-card fade-in">
+      <span class="passion-icon">🎮</span>
+      <h3>王者荣耀 (KPL)</h3>
+      <p>追随极致的锋芒，在峡谷中感受不屈的电竞精神</p>
+    </div>
+  </div>
+</section>
+
+<!-- 追光者 (偶像展示) -->
+<section id="idols">
+  <h2 class="section-title fade-in">冰与火的信仰</h2>
+  <div class="idols-grid">
+    <!-- 特鲁索娃卡片 -->
+    <div class="idol-card ice fade-in">
+      <!-- 提示：请将下方 src 替换为你本地下载的莎莎图片路径，例如 src="images/sasha.jpg" -->
+      <img src="https://images.unsplash.com/photo-1580748141549-71748dbe0bdc?w=800&q=80" alt="Alexandra Trusova">
+      <div class="idol-info">
+        <span class="idol-tag">❄️ 冰上女王</span>
+        <h3>Alexandra Trusova</h3>
+        <p>“我生来就是为了完成四周跳。”<br>致敬那份在冰面上不顾一切、燃烧自我的极致坚韧。</p>
+      </div>
+    </div>
+    <!-- 钎城卡片 -->
+    <div class="idol-card fire fade-in">
+      <!-- 提示：请将下方 src 替换为你本地下载的钎城图片路径，例如 src="images/qiancheng.jpg" -->
+      <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80" alt="Qiancheng KPL">
+      <div class="idol-info">
+        <span class="idol-tag">🏹 峡谷锋芒</span>
+        <h3>钎城 (KPL)</h3>
+        <p>“哪怕身处绝境，也要敢于在刀尖上跳舞。”<br>致敬那份属于射手的绝对冷静与极限输出。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 旅游风景画廊 -->
+<section id="gallery">
+  <h2 class="section-title fade-in">走过的风景</h2>
+  <div class="gallery-grid">
+    <div class="gallery-item fade-in">
+      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="群山" loading="lazy">
+      <div class="gallery-overlay"><h4>群山之巅</h4><p>去山野间，听风穿过森林的声音</p></div>
+    </div>
+    <div class="gallery-item fade-in">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80" alt="海洋" loading="lazy">
+      <div class="gallery-overlay"><h4>蔚蓝海岸</h4><p>海风吹散烦恼，海浪带来治愈</p></div>
+    </div>
+    <div class="gallery-item fade-in">
+      <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600&q=80" alt="极光" loading="lazy">
+      <div class="gallery-overlay"><h4>追寻极光</h4><p>在世界的尽头，看一场宇宙的浪漫</p></div>
+    </div>
+    <div class="gallery-item fade-in">
+      <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&q=80" alt="森林" loading="lazy">
+      <div class="gallery-overlay"><h4>迷雾森林</h4><p>迷失在绿意中，找回内心的宁静</p></div>
+    </div>
+    <div class="gallery-item fade-in">
+      <img src="https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=600&q=80" alt="湖泊" loading="lazy">
+      <div class="gallery-overlay"><h4>静谧之镜</h4><p>湖面如镜，倒映着天空与真实的自己</p></div>
+    </div>
+    <div class="gallery-item fade-in">
+      <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?w=600&q=80" alt="城市夜景" loading="lazy">
+      <div class="gallery-overlay"><h4>繁华星夜</h4><p>在城市的霓虹中，感受人间烟火的温度</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 艺术语录 -->
+<section id="quotes">
+  <h2 class="section-title fade-in">艺术与生活回音</h2>
+  <div class="quotes-container">
+    <div class="quote-card fade-in">
+      <span class="quote-mark">“</span>
+      <p class="quote-text">太多人的命运像落叶，只有你，飘起来像金色的雨。</p>
+      <p class="quote-author">—— 公孙离 (致 峡谷中那抹红色的身影)</p>
+    </div>
+    <div class="quote-card fade-in">
+      <span class="quote-mark">“</span>
+      <p class="quote-text">我生来就是为了完成四周跳。哪怕摔倒一万次，也要在第一万零一次站起来。</p>
+      <p class="quote-author">—— 亚历山德拉·特鲁索娃</p>
+    </div>
+    <div class="quote-card fade-in">
+      <span class="quote-mark">“</span>
+      <p class="quote-text">我们都在阴沟里，但仍有人仰望星空。</p>
+      <p class="quote-author">—— 奥斯卡·王尔德</p>
+    </div>
+    <div class="quote-card fade-in">
+      <span class="quote-mark">“</span>
+      <p class="quote-text">我走过许多地方的路，行过许多地方的桥，看过许多次数的云，却只爱过一个正当最好年龄的人。</p>
+      <p class="quote-author">—— 沈从文</p>
+    </div>
+    <div class="quote-card fade-in">
+      <span class="quote-mark">“</span>
+      <p class="quote-text">生活不是我们活过的日子，而是我们记住的日子。去热爱，去体验，去成为你自己。</p>
+      <p class="quote-author">—— 致 ENFP 的自己</p>
+    </div>
+  </div>
+</section>
+
+<!-- 联系方式 -->
+<section id="contact">
+  <h2 class="section-title fade-in">与我联系</h2>
+  <div class="contact-wrapper fade-in">
+    <p class="contact-text">
+      无论是探讨旅行的下一站、交流KPL的赛事战术，<br>
+      还是约一场乒乓球、分享一首单曲循环的宝藏歌曲，<br>
+      都欢迎随时闯入我的小宇宙！
+    </p>
+    <a href="mailto:1363841757@qq.com" class="contact-btn">📧 发送邮件给我</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2024 张欣杨 | ENFP · 轮机工程 · 步履不停 · 热爱不息</p>
+</footer>
+
+<!-- 悬浮音乐播放器 (纯视觉展示) -->
+<div class="music-player" id="musicPlayer" onclick="toggleMusicVisual()">
+  <div class="vinyl playing" id="vinyl">
+    <div class="vinyl-inner"></div>
+  </div>
+  <div class="music-info">
+    <span class="song-title">🎵 想你时风起 (纯享版)</span>
+    <span class="song-status" id="musicStatus">正在播放</span>
+  </div>
+</div>
+
+<script>
+  // 1. 动态背景粒子
+  const particlesContainer = document.getElementById('particles');
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    const size = Math.random() * 3 + 1.5;
+    p.style.width = `${size}px`; p.style.height = `${size}px`;
+    p.style.left = `${Math.random() * 100}%`;
+    p.style.animationDuration = `${Math.random() * 12 + 10}s`;
+    p.style.animationDelay = `${Math.random() * 5}s`;
+    particlesContainer.appendChild(p);
+  }
+
+  // 2. 滚动淡入动画
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach((el) => {
+    if(el.closest('.passions-grid') || el.closest('.gallery-grid') || el.closest('.quotes-container') || el.closest('.idols-grid')) {
+      const siblings = Array.from(el.parentElement.children);
+      const i = siblings.indexOf(el);
+      el.style.transitionDelay = `${i * 0.15}s`;
+    }
+    observer.observe(el);
+  });
+
+  // 3. 导航栏滚动变色
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+      nav.style.background = 'rgba(15, 32, 39, 0.85)';
+      nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
+    } else {
+      nav.style.background = 'rgba(15, 32, 39, 0.5)';
+      nav.style.boxShadow = 'none';
+    }
+  });
+
+  // 4. 音乐播放器视觉控制
+  const vinyl = document.getElementById('vinyl');
+  const musicStatus = document.getElementById('musicStatus');
+  let isPlayingVisual = true; 
+
+  function toggleMusicVisual() {
+    if (isPlayingVisual) {
+      vinyl.classList.remove('playing');
+      musicStatus.textContent = '已暂停';
+    } else {
+      vinyl.classList.add('playing');
+      musicStatus.textContent = '正在播放';
+    }
+    isPlayingVisual = !isPlayingVisual;
+  }
+</script>
+</body>
+</html>
